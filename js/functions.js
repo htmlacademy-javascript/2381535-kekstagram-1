@@ -1,10 +1,11 @@
-function getPalindrom (words) {
+const isPalindrom = (words) => {
   words = words.toLowerCase().replaceAll(' ', '');
   const wordsReverse = words.split('').reverse().join('');
   return words === wordsReverse ? 'Это палиндром' : 'Это не палиндром';
-}
+};
+isPalindrom('Кекс');
 
-function getString (string) {
+const extractNumbers = (string) => {
   let numbers = '';
   if (typeof(string) === 'number') {
     return +string;
@@ -15,29 +16,19 @@ function getString (string) {
     }
   }
   return +numbers;
-}
-
-// function generationAddress (string, minLength, addSymbol) {
-//   const difference = minLength - string.length;
-//   if (difference <= 0) {
-//     return string;
-//   }
-
-//   return addSymbol.slice(difference % addSymbol.length) + addSymbol.repeat(difference / addSymbol.length) + string
-// }
+};
+extractNumbers('Агент 007');
 
 const generationAddress = (string, minLength, pad) => {
-  let result = string;
+  const result = string;
   while (result.length < minLength) {
     const newResultLength = result.length + pad.length;
     const actualPad = newResultLength <= minLength ? pad : pad.slice(0, minLength - newResultLength);
     return actualPad + result;
   }
   return result;
-}
+};
+generationAddress('1', 4, '0');
 
-
-function isLengthString (string, length) {
-  return string.length <= length;
-}
-
+const isLengthString = (string, length) => string.length <= length;
+isLengthString('Это длинная строка', 13);
