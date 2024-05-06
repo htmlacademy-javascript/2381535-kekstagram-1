@@ -1,6 +1,3 @@
-const MIN_NUMBER_OF_PHOTOS = 1;
-const MAX_NUMBER_OF_PHOTOS = 25;
-
 const NAMES_AUTHORS = [
   'Регина',
   'Вадим',
@@ -21,56 +18,52 @@ const MESSAGES = [
   'Лица у людей на фотке перекошены, как будто их избивают. Как можно было поймать такой неудачный момент?!',
 ];
 
-// Радомное число из диапазона
+const MIN_NUMBER_OF_PHOTOS = 1;
+const MAX_NUMBER_OF_PHOTOS = 25;
+const POST_COUNTS = 25;
+
 const getRandomInteger = (a, b) => {
   const lower = Math.ceil(Math.min(a, b));
   const upper = Math.floor(Math.max(a, b));
   const result = Math.random() * (upper - lower + 1) + lower;
   return Math.floor(result);
 };
-// Функция замыкания, с не повторяющимися рандомными числами
+
 function createRandomId(min, max) {
-  let previousValues = [];
+  const previousValues = [];
   return function() {
     let currentValue = getRandomInteger(min,max);
     if (previousValues.length >= (max - min + 1)) {
-      console.error('Перебраны все числа из диапазона от ' + min + ' до ' + max);
       return null;
     }
     while(previousValues.includes(currentValue)) {
       currentValue = getRandomInteger(min,max);
-    };
+    }
     previousValues.push(currentValue);
     return currentValue;
   };
-};
+}
 
 const getId = createRandomId(MIN_NUMBER_OF_PHOTOS, MAX_NUMBER_OF_PHOTOS);
 const getUrl = createRandomId(MIN_NUMBER_OF_PHOTOS, MAX_NUMBER_OF_PHOTOS);
 const getIdForComment = createRandomId(1, 1000);
 
-// Переменная для сохраниния сгенерированных ID
-// const generatePhotoId = () => createRandomId(MIN_NUMBER_OF_PHOTOS, MAX_NUMBER_OF_PHOTOS);
-
-// Создание комментария
-const createComments = () => {
-  return [{
-    'id': getIdForComment(),
-    'avatar': 'img/avatar-' + getRandomInteger(1, 6) + '.svg',
-    'message': MESSAGES[getRandomInteger(0, MESSAGES.length-1)],
-    'name': NAMES_AUTHORS[getRandomInteger(0, NAMES_AUTHORS.length-1)],
-  }]
-};
-
-let postsArray = [];
-
-// Создание публикацции
-const createPost = () => {
-  return postsArray.push({
+function createPost () {
+  return {
     'id': getId(),
-    'url': 'photos/' + getUrl() + '.jpg',
+    'url': `photos/${getUrl()}.jpg`,
     'description': 'Перед нами интересная фотография. Она точно передаёт хорошее настроение. Давайте рассмотрим изображение внимательнее.',
     'likes': getRandomInteger(15, 200),
-    'comments': createComments(),
-  });
-};
+    'comments': {
+      'id': getIdForComment(),
+      'avatar': `img/avatar-${getRandomInteger(1, 6)}.svg`,
+      'message': MESSAGES[getRandomInteger(0, MESSAGES.length - 1)],
+      'name': NAMES_AUTHORS[getRandomInteger(0, NAMES_AUTHORS.length - 1)],
+    },
+  };
+}
+
+const postsArray = Array.from({length: POST_COUNTS}, createPost);
+
+const runPostsArray = () => postsArray;
+runPostsArray();
