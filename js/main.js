@@ -22,7 +22,7 @@ const DESCRIPTIONS_PHOTOS = [
   'Перед нами интересная фотография.',
   'Это изображение точно передаёт хорошее настроение.',
   'Давайте рассмотрим изображение внимательнее.',
-]
+];
 
 const CountPhoto = {
   MIN: 1,
@@ -30,18 +30,21 @@ const CountPhoto = {
 };
 
 const CountLike = {
-
+  MIN: 25,
+  MAX: 200,
 };
-const minLikeCount = 25;
-const maxLikeCount = 200;
 
-const minNumberAvatar = 1;
-const maxNumberAvatar = 6;
+const CountAvatar = {
+  MIN: 1,
+  MAX: 6,
+};
 
-const minNumberComment = 1;
-const maxNumberComment = 3;
+const CountComment = {
+  MIN: 1,
+  MAX: 3,
+};
 
-const POST_COUNTS = 25;
+const postCount = 25;
 
 const getRandomInteger = (a, b) => {
   const lower = Math.ceil(Math.min(a, b));
@@ -72,23 +75,23 @@ const getIdForComment = createRandomId(1, 1000);
 function comments () {
   return {
     id: getIdForComment(),
-    avatar: `img/avatar-${getRandomInteger(minNumberAvatar, maxNumberAvatar)}.svg`,
+    avatar: `img/avatar-${getRandomInteger(CountAvatar.MIN, CountAvatar.MAX)}.svg`,
     message: MESSAGES[getRandomInteger(0, MESSAGES.length - 1)],
     name: NAMES_AUTHORS[getRandomInteger(0, NAMES_AUTHORS.length - 1)],
-  }
-};
+  };
+}
 
 function createPost () {
   return {
     id: getId(),
     url: `photos/${getUrl()}.jpg`,
     description: DESCRIPTIONS_PHOTOS[getRandomInteger(0, DESCRIPTIONS_PHOTOS.length - 1)],
-    likes: getRandomInteger(minLikeCount, maxLikeCount),
-    comments: Array.from({length: getRandomInteger(minNumberComment, maxNumberComment)}, comments),
+    likes: getRandomInteger(CountLike.MIN, CountLike.MAX),
+    comments: Array.from({length: getRandomInteger(CountComment.MIN, CountComment.MAX)}, comments),
   };
 }
 
-const posts = Array.from({length: POST_COUNTS}, createPost);
+const posts = Array.from({length: postCount}, createPost);
 
 const getPosts = () => posts;
 getPosts();
