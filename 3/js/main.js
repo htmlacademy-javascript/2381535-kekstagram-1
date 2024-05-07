@@ -18,9 +18,33 @@ const MESSAGES = [
   'Лица у людей на фотке перекошены, как будто их избивают. Как можно было поймать такой неудачный момент?!',
 ];
 
-const MIN_NUMBER_OF_PHOTOS = 1;
-const MAX_NUMBER_OF_PHOTOS = 25;
-const POST_COUNTS = 25;
+const DESCRIPTIONS_PHOTOS = [
+  'Перед нами интересная фотография.',
+  'Это изображение точно передаёт хорошее настроение.',
+  'Давайте рассмотрим изображение внимательнее.',
+];
+
+const CountPhoto = {
+  MIN: 1,
+  MAX: 25,
+};
+
+const CountLike = {
+  MIN: 25,
+  MAX: 200,
+};
+
+const CountAvatar = {
+  MIN: 1,
+  MAX: 6,
+};
+
+const CountComment = {
+  MIN: 1,
+  MAX: 3,
+};
+
+const postCount = 25;
 
 const getRandomInteger = (a, b) => {
   const lower = Math.ceil(Math.min(a, b));
@@ -44,26 +68,30 @@ function createRandomId(min, max) {
   };
 }
 
-const getId = createRandomId(MIN_NUMBER_OF_PHOTOS, MAX_NUMBER_OF_PHOTOS);
-const getUrl = createRandomId(MIN_NUMBER_OF_PHOTOS, MAX_NUMBER_OF_PHOTOS);
+const getId = createRandomId(CountPhoto.MIN, CountPhoto.MAX);
+const getUrl = createRandomId(CountPhoto.MIN, CountPhoto.MAX);
 const getIdForComment = createRandomId(1, 1000);
 
-function createPost () {
+function comments () {
   return {
-    'id': getId(),
-    'url': `photos/${getUrl()}.jpg`,
-    'description': 'Перед нами интересная фотография. Она точно передаёт хорошее настроение. Давайте рассмотрим изображение внимательнее.',
-    'likes': getRandomInteger(15, 200),
-    'comments': {
-      'id': getIdForComment(),
-      'avatar': `img/avatar-${getRandomInteger(1, 6)}.svg`,
-      'message': MESSAGES[getRandomInteger(0, MESSAGES.length - 1)],
-      'name': NAMES_AUTHORS[getRandomInteger(0, NAMES_AUTHORS.length - 1)],
-    },
+    id: getIdForComment(),
+    avatar: `img/avatar-${getRandomInteger(CountAvatar.MIN, CountAvatar.MAX)}.svg`,
+    message: MESSAGES[getRandomInteger(0, MESSAGES.length - 1)],
+    name: NAMES_AUTHORS[getRandomInteger(0, NAMES_AUTHORS.length - 1)],
   };
 }
 
-const postsArray = Array.from({length: POST_COUNTS}, createPost);
+function createPost () {
+  return {
+    id: getId(),
+    url: `photos/${getUrl()}.jpg`,
+    description: DESCRIPTIONS_PHOTOS[getRandomInteger(0, DESCRIPTIONS_PHOTOS.length - 1)],
+    likes: getRandomInteger(CountLike.MIN, CountLike.MAX),
+    comments: Array.from({length: getRandomInteger(CountComment.MIN, CountComment.MAX)}, comments),
+  };
+}
 
-const runPostsArray = () => postsArray;
-runPostsArray();
+const posts = Array.from({length: postCount}, createPost);
+
+const getPosts = () => posts;
+getPosts();
