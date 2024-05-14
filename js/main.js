@@ -44,7 +44,7 @@ const CountComment = {
   MAX: 3,
 };
 
-const postCount = 25;
+const MAX_POST_COUNT = 25;
 
 const getRandomInteger = (a, b) => {
   const lower = Math.ceil(Math.min(a, b));
@@ -53,9 +53,9 @@ const getRandomInteger = (a, b) => {
   return Math.floor(result);
 };
 
-function createRandomId(min, max) {
+const createRandomId = (min, max) => {
   const previousValues = [];
-  return function() {
+  return () => {
     let currentValue = getRandomInteger(min,max);
     if (previousValues.length >= (max - min + 1)) {
       return null;
@@ -66,32 +66,26 @@ function createRandomId(min, max) {
     previousValues.push(currentValue);
     return currentValue;
   };
-}
+};
 
 const getId = createRandomId(CountPhoto.MIN, CountPhoto.MAX);
 const getUrl = createRandomId(CountPhoto.MIN, CountPhoto.MAX);
 const getIdForComment = createRandomId(1, 1000);
 
-function comments () {
-  return {
-    id: getIdForComment(),
-    avatar: `img/avatar-${getRandomInteger(CountAvatar.MIN, CountAvatar.MAX)}.svg`,
-    message: MESSAGES[getRandomInteger(0, MESSAGES.length - 1)],
-    name: NAMES_AUTHORS[getRandomInteger(0, NAMES_AUTHORS.length - 1)],
-  };
-}
+const comments = () => ({
+  id: getIdForComment(),
+  avatar: `img/avatar-${getRandomInteger(CountAvatar.MIN, CountAvatar.MAX)}.svg`,
+  message: MESSAGES[getRandomInteger(0, MESSAGES.length - 1)],
+  name: NAMES_AUTHORS[getRandomInteger(0, NAMES_AUTHORS.length - 1)],
+});
 
-function createPost () {
-  return {
-    id: getId(),
-    url: `photos/${getUrl()}.jpg`,
-    description: DESCRIPTIONS_PHOTOS[getRandomInteger(0, DESCRIPTIONS_PHOTOS.length - 1)],
-    likes: getRandomInteger(CountLike.MIN, CountLike.MAX),
-    comments: Array.from({length: getRandomInteger(CountComment.MIN, CountComment.MAX)}, comments),
-  };
-}
+const createPost = () => ({
+  id: getId(),
+  url: `photos/${getUrl()}.jpg`,
+  description: DESCRIPTIONS_PHOTOS[getRandomInteger(0, DESCRIPTIONS_PHOTOS.length - 1)],
+  likes: getRandomInteger(CountLike.MIN, CountLike.MAX),
+  comments: Array.from({length: getRandomInteger(CountComment.MIN, CountComment.MAX)}, comments),
+});
 
-const posts = Array.from({length: postCount}, createPost);
-
-const getPosts = () => posts;
+const getPosts = () => Array.from({length: MAX_POST_COUNT}, createPost);
 getPosts();
