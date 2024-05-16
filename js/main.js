@@ -72,7 +72,7 @@ const getId = createRandomId(CountPhoto.MIN, CountPhoto.MAX);
 const getUrl = createRandomId(CountPhoto.MIN, CountPhoto.MAX);
 const getIdForComment = createRandomId(1, 1000);
 
-const comments = () => ({
+const getComments = () => ({
   id: getIdForComment(),
   avatar: `img/avatar-${getRandomInteger(CountAvatar.MIN, CountAvatar.MAX)}.svg`,
   message: MESSAGES[getRandomInteger(0, MESSAGES.length - 1)],
@@ -84,7 +84,7 @@ const createPost = () => ({
   url: `photos/${getUrl()}.jpg`,
   description: DESCRIPTIONS_PHOTOS[getRandomInteger(0, DESCRIPTIONS_PHOTOS.length - 1)],
   likes: getRandomInteger(CountLike.MIN, CountLike.MAX),
-  comments: Array.from({length: getRandomInteger(CountComment.MIN, CountComment.MAX)}, comments),
+  comments: Array.from({length: getRandomInteger(CountComment.MIN, CountComment.MAX)}, getComments),
 });
 
 const getPosts = () => Array.from({length: MAX_POST_COUNT}, createPost);
