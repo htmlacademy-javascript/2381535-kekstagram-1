@@ -1,3 +1,4 @@
-import { getPosts } from './data.js';
+import { valueFinished } from './rendering-thumbnail.js';
 
-getPosts();
+valueFinished();
+
