@@ -1,4 +1,6 @@
-import { valueFinished } from './rendering-thumbnail.js';
+import { valueFinished } from './thumbnails.js';
+import { getPosts } from './data.js';
 
-valueFinished();
+const posts = getPosts();
 
+valueFinished(posts);
