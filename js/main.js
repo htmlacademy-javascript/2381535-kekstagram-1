@@ -1,3 +1,6 @@
+import { valueFinished } from './thumbnails.js';
 import { getPosts } from './data.js';
 
-getPosts();
+const posts = getPosts();
+
+valueFinished(posts);
