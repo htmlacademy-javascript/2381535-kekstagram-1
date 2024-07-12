@@ -8,6 +8,7 @@ const bigPictureCancel = document.querySelector('.big-picture__cancel');
 const closeBigPicture = () => {
   bigPicture.classList.add(HIDDEN_PICTURE_CLASS);
   document.removeEventListener('keydown', onDocumentKeydown);
+  document.body.classList.remove('modal-open');
 };
 
 function onDocumentKeydown(evt) {
