@@ -1,4 +1,4 @@
-import { getRandomInteger, createRandomId } from './util.js';
+import { getRandomInteger, createRandomId } from './utils.js';
 
 const NAMES_AUTHORS = [
   'Регина',
