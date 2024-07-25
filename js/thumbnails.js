@@ -5,10 +5,10 @@ const pictureTemplate = document.querySelector('#picture').content.querySelector
 let data = [];
 
 const onPicturesSectionClick = (evt) => {
-  evt.preventDefault();
   const picture = evt.target.closest('.picture');
 
   if (picture) {
+    evt.preventDefault();
     const pictureId = picture.dataset.id;
     const pictureData = data.find((item) => item.id === +pictureId);
     openBigPicture(pictureData);
