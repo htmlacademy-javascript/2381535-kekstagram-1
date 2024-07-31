@@ -52,7 +52,7 @@ const DEFAULT_EFFECT = EFFECTS[0];
 const HIDDEN_SLIDER = 'hidden';
 
 const containerSlider = document.querySelector('.effect-level');
-const effectLevelElement = containerSlider.querySelector('.effect-level__value')
+const effectLevelElement = containerSlider.querySelector('.effect-level__value');
 const effectSlider = containerSlider.querySelector('.effect-level__slider');
 const effectsList = document.querySelector('.effects');
 const imgPicture = document.querySelector('.img-upload__preview img');
@@ -80,7 +80,7 @@ window.noUiSlider.create(effectSlider, {
 });
 
 // Slider init
-const updateSlider = (pressedEffect) => {
+const updateSlider = () => {
   effectSlider.noUiSlider.updateOptions({
     range: {
       min: pressedEffect.min,
@@ -102,7 +102,7 @@ const onEffectChange = (evt) => {
     imgPicture.className = `effects__preview--${pressedEffect.name}`;
     showSlider();
     updateSlider(pressedEffect);
-  };
+  }
 };
 
 // Chanch slider value
@@ -110,8 +110,6 @@ const onSliderUpdate = () => {
   const sliderValue = effectSlider.noUiSlider.get();
   imgPicture.style.filter = `${pressedEffect.filter}(${sliderValue}${pressedEffect.unit})`;
   effectLevelElement.value = sliderValue;
-
-  console.log(`${pressedEffect.filter}(${sliderValue}${pressedEffect.unit})`);
 };
 
 effectsList.addEventListener('change', onEffectChange);

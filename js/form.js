@@ -37,9 +37,11 @@ const validateTags = (value) => {
 
   const isValidAllTags = normalizeTags.every(isValidTag) && hasValidCount(normalizeTags) && hasUniqueTags(normalizeTags);
 
-  if (!Boolean(isValidAllTags)) {
+  if (!(isValidAllTags)) {
     btnSubmitModule.setAttribute('disabled', '');
-  } else btnSubmitModule.removeAttribute('disabled', '');
+  } else {
+    btnSubmitModule.removeAttribute('disabled', '');
+  }
 
   return isValidAllTags;
 };
@@ -48,12 +50,18 @@ pristine.addValidator(
   hashtagField,
   validateTags,
   TAG_ERROR_TEXT
-)
+);
 
 const onDocumentKeydown = (evt) => {
   if (isEscapeKey(evt)) {
     evt.preventDefault();
     closeModal();
+  }
+};
+
+const onStopPropagationKeydown = (evt) => {
+  if(isEscapeKey(evt)) {
+    evt.stopPropagation();
   }
 };
 
@@ -67,16 +75,8 @@ function closeModal() {
   form.reset();
   resetScale();
   resetEffects();
-};
+}
 
-const onStopPropagationKeydown = (evt) => {
-  if(isEscapeKey(evt)) {
-    evt.stopPropagation();
-  };
-};
-
-
-const onShowModalClick = () => showModal();
 const showModal = () => {
   imgUploadModule.classList.remove(HIDDEN_UPLOAD_CLASS);
   document.body.classList.add(MODAL_OPEN_CLASS);
@@ -88,9 +88,11 @@ const showModal = () => {
   hideSlider();
 };
 
+const onShowModalClick = () => showModal();
+
 const initForm = () => {
   imgUploadButton.addEventListener('change', onShowModalClick);
-  pristine.validate()
+  pristine.validate();
 };
 
 export {initForm};
