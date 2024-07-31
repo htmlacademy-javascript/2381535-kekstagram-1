@@ -1,4 +1,6 @@
 import { isEscapeKey } from './utils.js';
+import { initScale, resetScale } from './scale.js';
+import { resetEffects, hideSlider } from './effects.js';
 
 const HIDDEN_UPLOAD_CLASS = 'hidden';
 const MODAL_OPEN_CLASS = 'modal-open';
@@ -63,6 +65,8 @@ function closeModal() {
   commentField.removeEventListener('keydown', onStopPropagationKeydown);
   hashtagField.removeEventListener('keydown', onStopPropagationKeydown);
   form.reset();
+  resetScale();
+  resetEffects();
 };
 
 const onStopPropagationKeydown = (evt) => {
@@ -80,11 +84,13 @@ const showModal = () => {
   imgUploadClose.addEventListener('click', onCloseModalClick);
   commentField.addEventListener('keydown', onStopPropagationKeydown);
   hashtagField.addEventListener('keydown', onStopPropagationKeydown);
+  initScale();
+  hideSlider();
 };
 
 const initForm = () => {
   imgUploadButton.addEventListener('change', onShowModalClick);
-  pristine.validate();
+  pristine.validate()
 };
 
 export {initForm};
