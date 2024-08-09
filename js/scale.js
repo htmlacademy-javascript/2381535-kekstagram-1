@@ -38,6 +38,8 @@ const initScale = () => {
   scaleButtonBigger.addEventListener('click', onScaleBiggerClick);
 };
 
-const resetScale = () => scaleImage(SCALE_DEFAULT_VALUE);
+function resetScale() {
+  currentValueScale = SCALE_DEFAULT_VALUE;
+}
 
 export {initScale, resetScale};

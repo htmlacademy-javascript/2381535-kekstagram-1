@@ -1,8 +1,10 @@
 import { initThumbnails } from './thumbnails.js';
-import { getPosts } from './data.js';
-import { initForm } from './form.js';
+import { initForm, setUserFormSubmit, closeModal } from './form.js';
+import { getData } from './api.js';
 
-const posts = getPosts();
-
-initThumbnails(posts);
+const dataPromis = await getData();
+initThumbnails(dataPromis);
 initForm();
+
+setUserFormSubmit(closeModal);
+

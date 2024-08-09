@@ -1,6 +1,7 @@
-import { isEscapeKey } from './utils.js';
+import { isEscapeKey, showAlert } from './utils.js';
 import { initScale, resetScale } from './scale.js';
 import { resetEffects, hideSlider } from './effects.js';
+import { sendData } from './api.js';
 
 const HIDDEN_UPLOAD_CLASS = 'hidden';
 const MODAL_OPEN_CLASS = 'modal-open';
@@ -66,15 +67,16 @@ const onStopPropagationKeydown = (evt) => {
 };
 
 const onCloseModalClick = () => closeModal();
+
 function closeModal() {
   imgUploadModule.classList.add(HIDDEN_UPLOAD_CLASS);
   document.body.classList.remove(MODAL_OPEN_CLASS);
   document.removeEventListener('keydown', onDocumentKeydown);
   commentField.removeEventListener('keydown', onStopPropagationKeydown);
   hashtagField.removeEventListener('keydown', onStopPropagationKeydown);
-  form.reset();
   resetScale();
   resetEffects();
+  form.reset();
 }
 
 const showModal = () => {
@@ -90,9 +92,27 @@ const showModal = () => {
 
 const onShowModalClick = () => showModal();
 
+
+const setUserFormSubmit = (onSuccess) => {
+  form.addEventListener('submit', (evt) => {
+    evt.preventDefault();
+
+    const isValid = pristine.validate();
+    if (isValid) {
+      sendData(new FormData(evt.target))
+        .then(onSuccess)
+        .catch(
+          (err) => {
+            showAlert(err.message);
+          });
+    }
+    document.alert('Данные отправлены успешно!');
+  });
+};
+
 const initForm = () => {
   imgUploadButton.addEventListener('change', onShowModalClick);
   pristine.validate();
 };
 
-export {initForm};
+export {initForm, setUserFormSubmit, closeModal };
