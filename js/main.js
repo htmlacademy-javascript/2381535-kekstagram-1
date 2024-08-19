@@ -1,6 +1,10 @@
-import { valueFinished } from './thumbnails.js';
-import { getPosts } from './data.js';
+import { initThumbnails } from './thumbnails.js';
+import { initForm, setUserFormSubmit, closeModal } from './form.js';
+import { getData } from './api.js';
 
-const posts = getPosts();
+const dataPromis = await getData();
+initThumbnails(dataPromis);
+initForm();
 
-valueFinished(posts);
+setUserFormSubmit(closeModal);
+

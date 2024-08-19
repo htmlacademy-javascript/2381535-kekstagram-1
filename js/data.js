@@ -1,4 +1,4 @@
-import { getRandomInteger, createRandomId } from './util.js';
+import { getRandomInteger, createRandomId } from './utils.js';
 
 const NAMES_AUTHORS = [
   'Регина',
@@ -43,7 +43,7 @@ const CountAvatar = {
 
 const CountComment = {
   MIN: 1,
-  MAX: 3,
+  MAX: 15,
 };
 
 const MAX_POST_COUNT = 25;
